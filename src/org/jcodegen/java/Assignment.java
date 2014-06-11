@@ -7,6 +7,7 @@ public class Assignment extends JavaCodeBlock<Assignment> {
 
     private final StringOrCode<FunctionCall> lvalue;
     private final StringOrCode<Expression> rvalue;
+    private final OperatorExpression altRvalue;
 
     private boolean embedded = false;
 
@@ -19,6 +20,7 @@ public class Assignment extends JavaCodeBlock<Assignment> {
         super("=", indentationLevel);
         this.lvalue = new StringOrCode<FunctionCall>(lvalue);
         this.rvalue = new StringOrCode<Expression>(rvalue);
+        altRvalue = null;
     }
 
     public Assignment(final FunctionCall lvalue, final String rvalue) {
@@ -29,6 +31,7 @@ public class Assignment extends JavaCodeBlock<Assignment> {
         super("=", indentationLevel);
         this.lvalue = new StringOrCode<FunctionCall>(lvalue);
         this.rvalue = new StringOrCode<Expression>(rvalue);
+        altRvalue = null;
     }
 
     public Assignment(final String lvalue, final Expression rvalue) {
@@ -39,6 +42,7 @@ public class Assignment extends JavaCodeBlock<Assignment> {
         super("=", indentationLevel);
         this.lvalue = new StringOrCode<FunctionCall>(lvalue);
         this.rvalue = new StringOrCode<Expression>(rvalue);
+        altRvalue = null;
     }
 
     public Assignment(final FunctionCall lvalue, final Expression rvalue) {
@@ -49,6 +53,29 @@ public class Assignment extends JavaCodeBlock<Assignment> {
         super("=", indentationLevel);
         this.lvalue = new StringOrCode<FunctionCall>(lvalue);
         this.rvalue = new StringOrCode<Expression>(rvalue);
+        altRvalue = null;
+    }
+
+    public Assignment(final String lvalue, final OperatorExpression altRvalue) {
+        this(lvalue, altRvalue, 0);
+    }
+
+    public Assignment(final String lvalue, final OperatorExpression altRvalue, final int indentationLevel) {
+        super("=", indentationLevel);
+        this.lvalue = new StringOrCode<FunctionCall>(lvalue);
+        rvalue = null;
+        this.altRvalue = altRvalue;
+    }
+
+    public Assignment(final FunctionCall lvalue, final OperatorExpression altRvalue) {
+        this(lvalue, altRvalue, 0);
+    }
+
+    public Assignment(final FunctionCall lvalue, final OperatorExpression altRvalue, final int indentationLevel) {
+        super("=", indentationLevel);
+        this.lvalue = new StringOrCode<FunctionCall>(lvalue);
+        rvalue = null;
+        this.altRvalue = altRvalue;
     }
 
 
@@ -72,7 +99,10 @@ public class Assignment extends JavaCodeBlock<Assignment> {
 
         buf.append(lvalue.toString());
         buf.append(" = ");
-        buf.append(rvalue.toString());
+        if (rvalue != null)
+            buf.append(rvalue.toString());
+        else
+            buf.append(altRvalue.toString());
 
         if (!embedded)
             buf.append(";\n");
