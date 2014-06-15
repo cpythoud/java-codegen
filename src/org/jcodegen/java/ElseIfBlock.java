@@ -8,6 +8,9 @@ public class ElseIfBlock extends LogicBranchBlock<ElseIfBlock> {
     private boolean startLine = false;
     private boolean moreElsesToCome = false;
 
+    public ElseIfBlock(final Condition condition) {
+        this(condition, 0);
+    }
 
     public ElseIfBlock(final Condition condition, final int indentationLevel) {
         super("else if", indentationLevel, condition);
