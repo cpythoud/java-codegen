@@ -8,6 +8,7 @@ public class AnonymousClassCreation extends Expression<AnonymousClassCreation> {
     private final String className;
 
     private JavaCodeBlock context = null;
+    private int extraContextIndentation = 0;
 
     public AnonymousClassCreation(final String className) {
         this(className, 0);
@@ -25,7 +26,12 @@ public class AnonymousClassCreation extends Expression<AnonymousClassCreation> {
     }
 
     public AnonymousClassCreation setContext(final JavaCodeBlock context) {
+        return setContext(context, 0);
+    }
+
+    public AnonymousClassCreation setContext(final JavaCodeBlock context, final int extraContextIndentation) {
         this.context = context;
+        this.extraContextIndentation = extraContextIndentation;
         return getThis();
     }
 
@@ -35,7 +41,7 @@ public class AnonymousClassCreation extends Expression<AnonymousClassCreation> {
         final StringBuilder buf = new StringBuilder();
 
         if (context != null)
-            setIndentationLevel(context.getIndentationLevel() + 1);
+            setIndentationLevel(context.getIndentationLevel() + 1 + extraContextIndentation);
 
         buf.append("new ");
         buf.append(className);
