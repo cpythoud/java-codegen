@@ -36,6 +36,11 @@ public class JavaClass extends Declaration<JavaClass> {
         return this;
     }
 
+    public JavaClass implementsGenericInterface(final String implementedInterface, final String typeParameters) {
+        implementedInterfaces.add(implementedInterface + "<" + typeParameters + ">");
+        return this;
+    }
+
 
     @Override
     public String toString() {
