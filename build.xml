@@ -37,6 +37,14 @@
         <jar destfile="${build.dir}/java-codegen-${java-codegen.version}.jar" basedir="${build.classes}" includes="org/jcodegen/java/**/*" />
     </target>
 
+    <target name="jar-src" description="Create file java-codegen-(version).jar" depends="cleanup,compile">
+        <java classname="org.jcodegen.java.Version" classpath="${build.classes}" outputproperty="java-codegen.version" />
+        <jar destfile="${build.dir}/java-codegen-${java-codegen.version}.jar">
+            <fileset dir="${build.classes}" includes="org/jcodegen/java/**/*" />
+            <fileset dir="${src-ascii.dir}" includes="org/jcodegen/java/**/*" />
+        </jar>
+    </target>
+
     <target name="doc" description="Create javadoc for this project" depends="native2ascii">
         <mkdir dir="${javadoc.dir}" />
         <javadoc sourcepath="${src-ascii.dir}" destdir="${javadoc.dir}" />
