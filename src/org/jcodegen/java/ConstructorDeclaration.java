@@ -34,6 +34,11 @@ public class ConstructorDeclaration extends DeclarationWithArguments<Constructor
         throw new UnsupportedOperationException("Constructors cannot be abstract.");
     }
 
+    @Override
+    public ConstructorDeclaration markAsSynchronized() {
+        throw new UnsupportedOperationException("Constructors cannot be synchronized.");
+    }
+
 
     @Override
     public String toString() {

@@ -52,6 +52,16 @@ public class VarDeclaration extends Declaration<VarDeclaration> {
         return this;
     }
 
+    @Override
+    public VarDeclaration markAsAbstract() {
+        throw new UnsupportedOperationException("Field or variable cannot be abstract.");
+    }
+
+    @Override
+    public VarDeclaration markAsSynchronized() {
+        throw new UnsupportedOperationException("Field or variable cannot be synchronized.");
+    }
+
 
     @Override
     public String toString() {

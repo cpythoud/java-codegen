@@ -5,6 +5,11 @@ package org.jcodegen.java;
  */
 public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBlock<T> {
 
+    // TODO :
+    // revisit subclass hierarchy to prevent creation of illegal constructs in java,
+    // like synchronized constructors or abstract fields,
+    // at compile time instead of throwing UnsupportedOperationExceptions
+
     private final String name;
     //private final String codeEntity;
 
@@ -13,6 +18,7 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
     private boolean isAbstract = false;
     private boolean isFinal = false;
     private boolean isStatic = false;
+    private boolean isSynchronized = false;
 
     private String annotations = null;
 
@@ -49,9 +55,17 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
 
     public T markAsStatic() {
         if (isAbstract)
-            throw new IllegalArgumentException(getAbstractAndFinalErrorMessage());
+            throw new IllegalArgumentException(getAbstractAndStaticErrorMessage());
 
         isStatic = true;
+        return getThis();
+    }
+
+    public T markAsSynchronized() {
+        if (isAbstract)
+            throw new IllegalArgumentException(getAbstractAndSynchronizedErrorMessage());
+
+        isSynchronized = true;
         return getThis();
     }
 
@@ -71,6 +85,10 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
 
     protected String getAbstractAndStaticErrorMessage() {
         return getKeyword() + " cannot be abstract AND static";
+    }
+
+    protected String getAbstractAndSynchronizedErrorMessage() {
+        return getKeyword() + " cannot be abstract AND synchronized";
     }
 
     protected void appendAnnotations(final StringBuilder buf) {
@@ -93,5 +111,7 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
             buf.append("static ");
         if (isFinal)
             buf.append("final ");
+        if (isSynchronized)
+            buf.append("synchronized ");
     }
 }

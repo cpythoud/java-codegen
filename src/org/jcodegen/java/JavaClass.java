@@ -43,6 +43,12 @@ public class JavaClass extends Declaration<JavaClass> {
 
 
     @Override
+    public JavaClass markAsSynchronized() {
+        throw new UnsupportedOperationException("Class cannot be synchronized.");
+    }
+
+
+    @Override
     public String toString() {
         final StringBuilder buf = new StringBuilder();
 
