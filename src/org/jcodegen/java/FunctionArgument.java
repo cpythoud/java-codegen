@@ -30,4 +30,16 @@ public class FunctionArgument {
 
         return buf.toString();
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public boolean isFinal() {
+        return isFinal;
+    }
 }
