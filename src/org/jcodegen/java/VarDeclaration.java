@@ -1,5 +1,8 @@
 package org.jcodegen.java;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * ...
  */
@@ -169,7 +172,23 @@ public class VarDeclaration extends Declaration<VarDeclaration> {
                 new ObjectCreation(getParametrizedType(genericType, type)), visibility, indentationLevel);
     }
 
-    private static String getParametrizedType(final String genericType, final String concreteType) {
+    public static String getParametrizedType(final String genericType, final String concreteType) {
         return genericType + "<" + concreteType + ">";
+    }
+
+    public static String getParametrizedType(final String genericType, final String... concreteTypes) {
+        return getParametrizedType(genericType, Arrays.asList(concreteTypes));
+    }
+
+    public static String getParametrizedType(final String genericType, final List<String> concreteTypes) {
+        if (concreteTypes.isEmpty())
+            throw new IllegalArgumentException("At least one concrete type must be specified");
+
+        final StringBuilder types = new StringBuilder();
+        for (String type: concreteTypes)
+            types.append(type).append(", ");
+        types.delete(types.length() - 2, types.length());
+
+        return getParametrizedType(genericType, types.toString());
     }
 }
