@@ -109,28 +109,64 @@ public class VarDeclaration extends Declaration<VarDeclaration> {
     }
 
 
-    public static VarDeclaration createGenericContainerDeclaration(final String genericType, final String type, final String name) {
+    public static VarDeclaration createGenericContainerDeclaration(
+            final String genericType,
+            final String type,
+            final String name)
+    {
         return createGenericContainerDeclaration(genericType, type, name, Visibility.NONE);
     }
 
-    public static VarDeclaration createGenericContainerDeclaration(final String genericType, final String type, final String name, final Visibility visibility) {
+    public static VarDeclaration createGenericContainerDeclaration(
+            final String genericType,
+            final String type,
+            final String name,
+            final Visibility visibility)
+    {
         return createGenericContainerDeclaration(genericType, type, name, visibility, 0);
     }
 
-    public static VarDeclaration createGenericContainerDeclaration(final String genericType, final String type, final String name, final Visibility visibility, final int indentationLevel) {
+    public static VarDeclaration createGenericContainerDeclaration(
+            final String genericType,
+            final String type,
+            final String name,
+            final Visibility visibility,
+            final int indentationLevel)
+    {
         return createGenericContainerDeclaration(genericType, genericType, type, name, visibility, indentationLevel);
     }
 
-    public static VarDeclaration createGenericContainerDeclaration(final String genericInterface, final String genericType, final String type, final String name) {
+    public static VarDeclaration createGenericContainerDeclaration(
+            final String genericInterface,
+            final String genericType,
+            final String type,
+            final String name)
+    {
         return createGenericContainerDeclaration(genericInterface, genericType, type, name, Visibility.NONE);
     }
 
-    public static VarDeclaration createGenericContainerDeclaration(final String genericInterface, final String genericType, final String type, final String name, final Visibility visibility) {
+    public static VarDeclaration createGenericContainerDeclaration(
+            final String genericInterface,
+            final String genericType,
+            final String type,
+            final String name,
+            final Visibility visibility)
+    {
         return createGenericContainerDeclaration(genericInterface, genericType, type, name, visibility, 0);
     }
 
-    public static VarDeclaration createGenericContainerDeclaration(final String genericInterface, final String genericType, final String type, final String name, final Visibility visibility, final int indentationLevel) {
-        return new VarDeclaration(getParametrizedType(genericInterface, type), name, new ObjectCreation(getParametrizedType(genericType, type)), visibility, indentationLevel);
+    public static VarDeclaration createGenericContainerDeclaration(
+            final String genericInterface,
+            final String genericType,
+            final String type,
+            final String name,
+            final Visibility visibility,
+            final int indentationLevel)
+    {
+        return new VarDeclaration(
+                getParametrizedType(genericInterface, type),
+                name,
+                new ObjectCreation(getParametrizedType(genericType, type)), visibility, indentationLevel);
     }
 
     private static String getParametrizedType(final String genericType, final String concreteType) {
