@@ -11,9 +11,8 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
     // at compile time instead of throwing UnsupportedOperationExceptions
 
     private final String name;
-    //private final String codeEntity;
 
-    private Visibility visibility = Visibility.PUBLIC;
+    private Visibility visibility = Visibility.PACKAGE_PRIVATE;
 
     private boolean isAbstract = false;
     private boolean isFinal = false;
@@ -23,14 +22,13 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
     private String annotations = null;
 
 
-    public Declaration(final String keyword, final int indentLevel, final String name/*, final String codeEntity*/) {
+    public Declaration(String keyword, int indentLevel, String name) {
         super(keyword, indentLevel);
         this.name = name;
-        //this.codeEntity = codeEntity;
     }
 
 
-    public T visibility(final Visibility visibility) {
+    public T visibility(Visibility visibility) {
         this.visibility = visibility;
         return getThis();
     }
@@ -69,7 +67,7 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
         return getThis();
     }
 
-    public T annotate(final String annotations) {
+    public T annotate(String annotations) {
         this.annotations = annotations;
         return getThis();
     }
@@ -91,7 +89,7 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
         return getKeyword() + " cannot be abstract AND synchronized";
     }
 
-    protected void appendAnnotations(final StringBuilder buf) {
+    protected void appendAnnotations(StringBuilder buf) {
         if (annotations != null) {
             buf.append(getTabs());
             buf.append(annotations);
@@ -99,7 +97,7 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
         }
     }
 
-    protected void appendDeclarationStart(final StringBuilder buf) {
+    protected void appendDeclarationStart(StringBuilder buf) {
         buf.append(getTabs());
         if (visibility != Visibility.PACKAGE_PRIVATE && visibility != Visibility.NONE) {
             buf.append(visibility.getVal());
