@@ -5,11 +5,11 @@ package org.jcodegen.java;
  */
 public class WhileBlock extends ConditionalBlock<WhileBlock> {
 
-    public WhileBlock(final Condition condition) {
+    public WhileBlock(Condition condition) {
         this(condition, 0);
     }
 
-    public WhileBlock(final Condition condition, final int indentationLevel) {
+    public WhileBlock(Condition condition, int indentationLevel) {
         super("while", indentationLevel, condition);
     }
 
@@ -22,7 +22,7 @@ public class WhileBlock extends ConditionalBlock<WhileBlock> {
 
     @Override
     public String toString() {
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
 
         buf.append(getTabs());
         buf.append("while");
@@ -35,7 +35,7 @@ public class WhileBlock extends ConditionalBlock<WhileBlock> {
             appendContent(buf);
         }
 
-        buf.append("\n");
+        //buf.append("\n");
 
         return buf.toString();
     }
