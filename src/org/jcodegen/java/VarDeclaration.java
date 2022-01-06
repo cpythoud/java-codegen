@@ -8,45 +8,45 @@ import java.util.List;
  */
 public class VarDeclaration extends Declaration<VarDeclaration> {
 
-    private String type;
-    private StringOrCode<Expression> value;
+    private final String type;
+    private final StringOrCode<Expression> value;
 
 
-    public VarDeclaration(final String type, final String name) {
+    public VarDeclaration(String type, String name) {
         super("Variable", 0, name);
         visibility(Visibility.NONE);
         this.type = type;
         this.value = null;
     }
 
-    public VarDeclaration(final String type, final String name, final String value) {
+    public VarDeclaration(String type, String name, String value) {
         this(type, name, value, Visibility.NONE);
     }
 
-    public VarDeclaration(final String type, final String name, final String value, final Visibility visibility) {
+    public VarDeclaration(String type, String name, String value, Visibility visibility) {
         this(type, name, value, visibility, 0);
     }
 
-    public VarDeclaration(final String type, final String name, final String value, final Visibility visibility, final int indentationLevel) {
+    public VarDeclaration(String type, String name, String value, Visibility visibility, int indentationLevel) {
         super("Variable", indentationLevel, name);
         visibility(visibility);
         this.type = type;
-        this.value = new StringOrCode<Expression>(value);
+        this.value = new StringOrCode<>(value);
     }
 
-    public VarDeclaration(final String type, final String name, final Expression value) {
+    public VarDeclaration(String type, String name, Expression value) {
         this(type, name, value, Visibility.NONE);
     }
 
-    public VarDeclaration(final String type, final String name, final Expression value, final Visibility visibility) {
+    public VarDeclaration(String type, String name, Expression value, Visibility visibility) {
         this(type, name, value, visibility, 0);
     }
 
-    public VarDeclaration(final String type, final String name, final Expression value, final Visibility visibility, final int indentationLevel) {
+    public VarDeclaration(String type, String name, Expression value, Visibility visibility, int indentationLevel) {
         super("Variable", indentationLevel, name);
         visibility(visibility);
         this.type = type;
-        this.value = new StringOrCode<Expression>(value);
+        this.value = new StringOrCode<>(value);
     }
 
 
@@ -68,7 +68,7 @@ public class VarDeclaration extends Declaration<VarDeclaration> {
 
     @Override
     public String toString() {
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
 
         appendAnnotations(buf);
 
@@ -90,105 +90,126 @@ public class VarDeclaration extends Declaration<VarDeclaration> {
     }
 
 
-    public static VarDeclaration declareAndInit(final String type, final String name) {
+    public static VarDeclaration declareAndInit(String type, String name) {
         return new VarDeclaration(type, name, new ObjectCreation(type));
     }
 
-    public static VarDeclaration declareAndInitFinal(final String type, final String name) {
+    public static VarDeclaration declareAndInitFinal(String type, String name) {
         return declareAndInit(type, name).markAsFinal();
     }
 
 
-    public static VarDeclaration createListDeclaration(final String type, final String name) {
+    public static VarDeclaration createListDeclaration(String type, String name) {
         return createListDeclaration(type, name, Visibility.NONE);
     }
 
-    public static VarDeclaration createListDeclaration(final String type, final String name, final Visibility visibility) {
-        return createListDeclaration(type, name, visibility, 0);
+    public static VarDeclaration createListDeclaration(String type, String name, Visibility visibility) {
+        return createListDeclaration(type, name, visibility, false);
     }
 
-    public static VarDeclaration createListDeclaration(final String type, final String name, final Visibility visibility, final int indentationLevel) {
-        return createGenericContainerDeclaration("List", "ArrayList", type, name, visibility, indentationLevel);
+    public static VarDeclaration createListDeclaration(String type, String name, Visibility visibility, boolean repeatType) {
+        return createListDeclaration(type, name, visibility, repeatType, 0);
+    }
+
+    public static VarDeclaration createListDeclaration(String type, String name, Visibility visibility, boolean repeatType, int indentationLevel) {
+        return createGenericContainerDeclaration("List", "ArrayList", type, name, visibility, repeatType, indentationLevel);
     }
 
 
     public static VarDeclaration createGenericContainerDeclaration(
-            final String genericType,
-            final String type,
-            final String name)
+            String genericType,
+            String type,
+            String name)
     {
         return createGenericContainerDeclaration(genericType, type, name, Visibility.NONE);
     }
 
     public static VarDeclaration createGenericContainerDeclaration(
-            final String genericType,
-            final String type,
-            final String name,
-            final Visibility visibility)
+            String genericType,
+            String type,
+            String name,
+            Visibility visibility)
     {
         return createGenericContainerDeclaration(genericType, type, name, visibility, 0);
     }
 
     public static VarDeclaration createGenericContainerDeclaration(
-            final String genericType,
-            final String type,
-            final String name,
-            final Visibility visibility,
-            final int indentationLevel)
+            String genericType,
+            String type,
+            String name,
+            Visibility visibility,
+            int indentationLevel)
     {
-        return createGenericContainerDeclaration(genericType, genericType, type, name, visibility, indentationLevel);
+        return createGenericContainerDeclaration(genericType, genericType, type, name, visibility, false, indentationLevel);
     }
 
     public static VarDeclaration createGenericContainerDeclaration(
-            final String genericInterface,
-            final String genericType,
-            final String type,
-            final String name)
+            String genericInterface,
+            String genericType,
+            String type,
+            String name)
     {
         return createGenericContainerDeclaration(genericInterface, genericType, type, name, Visibility.NONE);
     }
 
     public static VarDeclaration createGenericContainerDeclaration(
-            final String genericInterface,
-            final String genericType,
-            final String type,
-            final String name,
-            final Visibility visibility)
+            String genericInterface,
+            String genericType,
+            String type,
+            String name,
+            Visibility visibility)
     {
-        return createGenericContainerDeclaration(genericInterface, genericType, type, name, visibility, 0);
+        return createGenericContainerDeclaration(genericInterface, genericType, type, name, visibility, false);
     }
 
     public static VarDeclaration createGenericContainerDeclaration(
-            final String genericInterface,
-            final String genericType,
-            final String type,
-            final String name,
-            final Visibility visibility,
-            final int indentationLevel)
+            String genericInterface,
+            String genericType,
+            String type,
+            String name,
+            Visibility visibility,
+            boolean repeatType)
+    {
+        return createGenericContainerDeclaration(genericInterface, genericType, type, name, visibility, repeatType, 0);
+    }
+
+    public static VarDeclaration createGenericContainerDeclaration(
+            String genericInterface,
+            String genericType,
+            String type,
+            String name,
+            Visibility visibility,
+            boolean repeatType,
+            int indentationLevel)
     {
         return new VarDeclaration(
                 getParametrizedType(genericInterface, type),
                 name,
-                new ObjectCreation(getParametrizedType(genericType, type)), visibility, indentationLevel);
+                new ObjectCreation(repeatType ? getParametrizedType(genericType, type) : getParametrizedType(genericType)), visibility, indentationLevel);
     }
 
-    public static String getParametrizedType(final String genericType, final String concreteType) {
+    public static String getParametrizedType(String genericType) {
+        return genericType + "<>";
+    }
+
+    public static String getParametrizedType(String genericType, String concreteType) {
         return genericType + "<" + concreteType + ">";
     }
 
-    public static String getParametrizedType(final String genericType, final String... concreteTypes) {
+    public static String getParametrizedType(String genericType, String... concreteTypes) {
         return getParametrizedType(genericType, Arrays.asList(concreteTypes));
     }
 
-    public static String getParametrizedType(final String genericType, final List<String> concreteTypes) {
+    public static String getParametrizedType(String genericType, List<String> concreteTypes) {
         if (concreteTypes.isEmpty())
             throw new IllegalArgumentException("At least one concrete type must be specified");
 
-        final StringBuilder types = new StringBuilder();
+        StringBuilder types = new StringBuilder();
         for (String type: concreteTypes)
             types.append(type).append(", ");
         types.delete(types.length() - 2, types.length());
 
         return getParametrizedType(genericType, types.toString());
     }
+
 }
