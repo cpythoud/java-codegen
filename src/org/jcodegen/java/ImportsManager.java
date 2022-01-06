@@ -15,38 +15,52 @@ import java.util.regex.PatternSyntaxException;
  */
 public class ImportsManager {
 
-    private Set<String> imports = new HashSet<String>();
+    private final Set<String> imports = new HashSet<>();
+    private final Set<String> staticImports = new HashSet<>();
 
     private static final Pattern importValidationPattern;
 
     static {
         try {
             importValidationPattern = Pattern.compile("([_a-zA-Z][_\\w]+\\.)+[_a-zA-Z][_\\w]+(\\.\\*)?");
-        } catch (final PatternSyntaxException pse) {
+        } catch (PatternSyntaxException pse) {
             throw new RuntimeException(pse);
         }
     }
 
 
-    public void addImport(final String importStr) {
-        final Matcher matcher = importValidationPattern.matcher(importStr);
+    public void addImport(String importStr) {
+        Matcher matcher = importValidationPattern.matcher(importStr);
         if (!matcher.matches())
             throw new IllegalArgumentException("Illegal character in import name: " + importStr);
 
         imports.add(importStr);
     }
 
+    public void addStaticImport(String importStr) {
+        Matcher matcher = importValidationPattern.matcher(importStr);
+        if (!matcher.matches())
+            throw new IllegalArgumentException("Illegal character in import name: " + importStr);
+
+        staticImports.add(importStr);
+    }
+
     public void clear() {
         imports.clear();
+        staticImports.clear();
     }
 
     public int getCount() {
         return imports.size();
     }
 
+    public int getStaticImportCount() {
+        return staticImports.size();
+    }
+
     public String getImports() {
-        final List<String> javaImports = new ArrayList<String>();
-        final List<String> otherImports = new ArrayList<String>();
+        List<String> javaImports = new ArrayList<>();
+        List<String> otherImports = new ArrayList<>();
 
         for (String importStr: imports) {
             if (importStr.startsWith("java.") || importStr.startsWith("javax."))
@@ -55,7 +69,7 @@ public class ImportsManager {
                 otherImports.add(importStr);
         }
 
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
         if (javaImports.size() > 0) {
             Collections.sort(javaImports);
             addImports(buf, javaImports);
@@ -67,14 +81,19 @@ public class ImportsManager {
             buf.append("\n");
         }
 
+        if (!staticImports.isEmpty()) {
+            addStaticImports(buf);
+            buf.append("\n");
+        }
+
         return buf.toString();
     }
 
-    private void addImports(final StringBuilder buf, final List<String> imports) {
+    private void addImports(StringBuilder buf, List<String> imports) {
         String lastSubPackageName = "";
 
         for (String importStr: imports) {
-            final String subPackageName = getPackageName(importStr);
+            String subPackageName = getPackageName(importStr);
 
             if (!subPackageName.equals(lastSubPackageName) && !lastSubPackageName.equals(""))
                 buf.append("\n");
@@ -87,7 +106,28 @@ public class ImportsManager {
         }
     }
 
-    private String getPackageName(final String importStr) {
+    private void addStaticImports(StringBuilder buf) {
+        List<String> imports = new ArrayList<>(staticImports);
+        Collections.sort(imports);
+
+        String lastClassName = "";
+
+        for (String importStr: imports) {
+            String className = getPackageName(importStr);
+
+            if (!className.equals(lastClassName) && !lastClassName.equals(""))
+                buf.append("\n");
+
+            buf.append("import static ");
+            buf.append(importStr);
+            buf.append(";\n");
+
+            lastClassName = className;
+        }
+    }
+
+    private String getPackageName(String importStr) {
         return importStr.substring(0, importStr.lastIndexOf("."));
     }
+
 }
