@@ -6,15 +6,15 @@ import java.util.List;
 /**
  * ...
  */
-public abstract class JavaCodeBlock <T extends JavaCodeBlock<T>> /*extends CodeBlock*/ {
+public abstract class JavaCodeBlock <T extends JavaCodeBlock<T>> {
 
-    private final List<JavaCodeBlock> content = new ArrayList<JavaCodeBlock>();
+    private final List<JavaCodeBlock> content = new ArrayList<>();
 
     private final String keyword;
     private int indentationLevel;
 
 
-    public JavaCodeBlock(final String keyword, final int indentationLevel) {
+    public JavaCodeBlock(String keyword, int indentationLevel) {
         this.keyword = keyword;
         this.indentationLevel = indentationLevel;
     }
@@ -30,7 +30,7 @@ public abstract class JavaCodeBlock <T extends JavaCodeBlock<T>> /*extends CodeB
         return indentationLevel;
     }
 
-    public void setIndentationLevel(final int indentationLevel) {
+    public void setIndentationLevel(int indentationLevel) {
         this.indentationLevel = indentationLevel;
         for (JavaCodeBlock block: content)
             block.setIndentationLevel(indentationLevel + 1);
@@ -40,8 +40,8 @@ public abstract class JavaCodeBlock <T extends JavaCodeBlock<T>> /*extends CodeB
         return getTabs(indentationLevel);
     }
 
-    public static String getTabs(final int indentationLevel) {
-        final StringBuilder buf = new StringBuilder();
+    public static String getTabs(int indentationLevel) {
+        StringBuilder buf = new StringBuilder();
 
         for (int i = 0; i < indentationLevel; i++)
             buf.append("\t");
@@ -50,13 +50,13 @@ public abstract class JavaCodeBlock <T extends JavaCodeBlock<T>> /*extends CodeB
     }
 
 
-    public T addContent(final JavaCodeBlock codeBlock) {
+    public T addContent(JavaCodeBlock codeBlock) {
         codeBlock.setIndentationLevel(getIndentationLevel() + 1);
         content.add(codeBlock);
         return getThis();
     }
 
-    public T addContent(final String code) {
+    public T addContent(String code) {
         content.add(new LineOfCode(code, getIndentationLevel() + 1));
         return getThis();
     }
@@ -66,7 +66,7 @@ public abstract class JavaCodeBlock <T extends JavaCodeBlock<T>> /*extends CodeB
         return content.size() == 1;
     }
 
-    protected void appendContent(final StringBuilder buf) {
+    protected void appendContent(StringBuilder buf) {
         if (content.isEmpty()) {
             buf.append("{ }");
             return;
@@ -81,15 +81,20 @@ public abstract class JavaCodeBlock <T extends JavaCodeBlock<T>> /*extends CodeB
         buf.append("}");
     }
 
-    protected void appendOneLinerContent(final StringBuilder buf) {
+    protected void appendOneLinerContent(StringBuilder buf) {
+        appendOneLinerContent(buf, true);
+    }
+
+    protected void appendOneLinerContent(StringBuilder buf, boolean withNewline) {
         if (!contentIsAOneLiner())
             throw new IllegalArgumentException("Block content is more than one line/unit of code or is empty. Cannot be printed as a one liner.");
 
-        buf.append("\n");
+        if (withNewline)
+            buf.append("\n");
         buf.append(content.get(0));
     }
 
-    protected void appendCommaSeparatedListItems(final StringBuilder buf, final List<String> items) {
+    protected void appendCommaSeparatedListItems(StringBuilder buf, List<String> items) {
         for (String item: items) {
             buf.append(item);
             buf.append(", ");
@@ -98,7 +103,7 @@ public abstract class JavaCodeBlock <T extends JavaCodeBlock<T>> /*extends CodeB
     }
 
 
-    protected boolean contentContainsBlock(final String keyword) {
+    protected boolean contentContainsBlock(String keyword) {
         for (JavaCodeBlock codeBlock: content)
             if (codeBlock.keyword.equals(keyword))
                 return true;

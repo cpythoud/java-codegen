@@ -4,15 +4,16 @@ package org.jcodegen.java;
  * ...
  */
 public class FunctionArgument {
+
     private final String name;
     private final String type;
     private final boolean isFinal;
 
-    public FunctionArgument(final String type, final String name) {
-        this(type, name, true);
+    public FunctionArgument(String type, String name) {
+        this(type, name, false);
     }
 
-    public FunctionArgument(final String type, final String name, final boolean isFinal) {
+    public FunctionArgument(String type, String name, boolean isFinal) {
         this.type = type;
         this.name = name;
         this.isFinal = isFinal;
@@ -20,7 +21,7 @@ public class FunctionArgument {
 
     @Override
     public String toString() {
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
 
         if (isFinal)
             buf.append("final ");
@@ -42,4 +43,5 @@ public class FunctionArgument {
     public boolean isFinal() {
         return isFinal;
     }
+
 }

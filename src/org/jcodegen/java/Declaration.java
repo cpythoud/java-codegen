@@ -73,7 +73,7 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
     }
 
 
-    protected String getName() {
+    public String getName() {
         return name;
     }
 
