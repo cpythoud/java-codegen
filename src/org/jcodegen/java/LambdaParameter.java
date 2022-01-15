@@ -19,6 +19,10 @@ public class LambdaParameter {
         return typedParameter == null;
     }
 
+    public boolean isTypedParameter() {
+        return simpleParameter == null;
+    }
+
     public String getSimpleParameter() {
         return simpleParameter;
     }
