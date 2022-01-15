@@ -13,24 +13,24 @@ public abstract class ConditionalBlock<T extends ConditionalBlock<T>> extends Ja
     private final List<ConditionCombination> combinations = new ArrayList<ConditionCombination>();
 
 
-    public ConditionalBlock(final String keyword, final int indentationLevel, final Condition condition) {
+    public ConditionalBlock(String keyword, int indentationLevel, Condition condition) {
         super(keyword, indentationLevel);
         this.condition = condition;
     }
 
 
-    public T andCondition(final Condition condition) {
+    public T andCondition(Condition condition) {
         combinations.add(new ConditionCombination(condition, ConditionCombination.Type.AND));
         return getThis();
     }
 
-    public T orCondition(final Condition condition) {
+    public T orCondition(Condition condition) {
         combinations.add(new ConditionCombination(condition, ConditionCombination.Type.OR));
         return getThis();
     }
 
 
-    protected void appendCondition(final StringBuilder buf) {
+    protected void appendCondition(StringBuilder buf) {
         buf.append(" (");
         buf.append(condition);
 

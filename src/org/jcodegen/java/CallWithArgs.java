@@ -19,35 +19,57 @@ public abstract class CallWithArgs<T extends CallWithArgs<T>> extends JavaCodeBl
 
 
     public T addArgument(String arg) {
-        arguments.add(new StringOrCode<JavaCodeBlock>(arg));
+        arguments.add(new StringOrCode<>(arg));
         return getThis();
     }
 
     public T addArguments(String... args) {
         for (String arg: args)
-            arguments.add(new StringOrCode<JavaCodeBlock>(arg));
+            arguments.add(new StringOrCode<>(arg));
         return getThis();
     }
 
     public T addArgument(Expression arg) {
-        arguments.add(new StringOrCode<JavaCodeBlock>(arg));
+        arguments.add(new StringOrCode<>(arg));
         return getThis();
     }
 
     public T addArguments(Expression... args) {
         for (Expression arg: args)
-            arguments.add(new StringOrCode<JavaCodeBlock>(arg));
+            arguments.add(new StringOrCode<>(arg));
         return getThis();
     }
 
     public T addArgument(OperatorExpression arg) {
-        arguments.add(new StringOrCode<JavaCodeBlock>(arg));
+        arguments.add(new StringOrCode<>(arg));
         return getThis();
     }
 
     public T addArguments(OperatorExpression... args) {
         for (OperatorExpression arg: args)
-            arguments.add(new StringOrCode<JavaCodeBlock>(arg));
+            arguments.add(new StringOrCode<>(arg));
+        return getThis();
+    }
+
+    public T addArgument(Comparison arg) {
+        arguments.add(new StringOrCode<>(arg));
+        return getThis();
+    }
+
+    public T addArguments(Comparison... args) {
+        for (Comparison arg: args)
+            arguments.add(new StringOrCode<>(arg));
+        return getThis();
+    }
+
+    public T addArgument(Condition arg) {
+        arguments.add(new StringOrCode<>(arg.toString()));
+        return getThis();
+    }
+
+    public T addArguments(Condition... args) {
+        for (Condition arg: args)
+            arguments.add(new StringOrCode<>(arg.toString()));
         return getThis();
     }
 
