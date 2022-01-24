@@ -9,27 +9,34 @@ public class FunctionDeclaration extends DeclarationWithArguments<FunctionDeclar
 
     private final String returnType;
 
+    private boolean emptyBody = false;
 
-    public FunctionDeclaration(final String name) {
+
+    public FunctionDeclaration(String name) {
         this(name, "void", 0);
     }
 
-    public FunctionDeclaration(final String name, final String returnType) {
+    public FunctionDeclaration(String name, String returnType) {
         this(name, returnType, 0);
     }
 
-    public FunctionDeclaration(final String name, final String returnType, final int indentationLevel) {
+    public FunctionDeclaration(String name, String returnType, int indentationLevel) {
         super("Function", indentationLevel, name);
         this.returnType = returnType;
     }
 
-    public FunctionDeclaration(final String name, final GenericType returnType) {
+    public FunctionDeclaration(String name, GenericType returnType) {
         this(name, returnType, 0);
     }
 
-    public FunctionDeclaration(final String name, final GenericType returnType, final int indentationLevel) {
+    public FunctionDeclaration(String name, GenericType returnType, int indentationLevel) {
         super("Function", indentationLevel, name);
         this.returnType = returnType.toString();
+    }
+
+    public FunctionDeclaration emptyBody() {
+        emptyBody = true;
+        return getThis();
     }
 
 
@@ -41,7 +48,7 @@ public class FunctionDeclaration extends DeclarationWithArguments<FunctionDeclar
 
     @Override
     public String toString() {
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
 
         appendAnnotations(buf);
 
@@ -54,9 +61,12 @@ public class FunctionDeclaration extends DeclarationWithArguments<FunctionDeclar
 
         appendArgumentList(buf);
         appendExceptionsThrown(buf);
-        buf.append(" ");
-
-        appendContent(buf);
+        if (emptyBody)
+            buf.append(";");
+        else {
+            buf.append(" ");
+            appendContent(buf);
+        }
 
         buf.append("\n");
 
@@ -64,15 +74,14 @@ public class FunctionDeclaration extends DeclarationWithArguments<FunctionDeclar
     }
 
 
-    public static FunctionDeclaration getter(final String type, final String var) {
+    public static FunctionDeclaration getter(String type, String var) {
         return getter(type, var, 0);
     }
 
-    public static FunctionDeclaration getter(final String type, final String var, final int indentLevel) {
+    public static FunctionDeclaration getter(String type, String var, int indentLevel) {
         return new FunctionDeclaration("get" + Strings.capitalize(var), type, indentLevel).addContent(
                 new ReturnStatement(var)
         );
     }
-
-
+    
 }
