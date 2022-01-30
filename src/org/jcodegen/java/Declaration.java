@@ -18,6 +18,8 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
     private boolean isFinal = false;
     private boolean isStatic = false;
     private boolean isSynchronized = false;
+    private boolean isSealed = false;
+    private boolean isNonSealed = false;
 
     private String annotations = null;
 
@@ -67,6 +69,22 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
         return getThis();
     }
 
+    T markAsSealed() {
+        if (isNonSealed)
+            throw new IllegalArgumentException(getSealedAndNonSealedErrorMessage());
+
+        isSealed = true;
+        return getThis();
+    }
+
+    public T markAsNonSealed() {
+        if (isSealed)
+            throw new IllegalArgumentException(getSealedAndNonSealedErrorMessage());
+
+        isNonSealed = true;
+        return getThis();
+    }
+
     public T annotate(String annotations) {
         this.annotations = annotations;
         return getThis();
@@ -87,6 +105,10 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
 
     protected String getAbstractAndSynchronizedErrorMessage() {
         return getKeyword() + " cannot be abstract AND synchronized";
+    }
+
+    protected String getSealedAndNonSealedErrorMessage() {
+        return getKeyword() + " cannot be sealed AND non-sealed (a class is automatically marked as sealed if it contains a list of permitted extended class";
     }
 
     protected void appendAnnotations(StringBuilder buf) {
@@ -111,5 +133,10 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
             buf.append("final ");
         if (isSynchronized)
             buf.append("synchronized ");
+        if (isSealed)
+            buf.append("sealed ");
+        if (isNonSealed)
+            buf.append("non-sealed");
     }
+
 }

@@ -9,14 +9,14 @@ import java.util.List;
 public class JavaClass extends Declaration<JavaClass> {
 
     private String extendedClass = null;
-    private final List<String> implementedInterfaces = new ArrayList<String>();
+    private final List<String> implementedInterfaces = new ArrayList<>();
+    private final List<String> permittedExtensions = new ArrayList<>();
 
-
-    public JavaClass(final String name) {
+    public JavaClass(String name) {
         this(name, 0);
     }
 
-    public JavaClass(final String name, final int indentationLevel) {
+    public JavaClass(String name, int indentationLevel) {
         super("class", indentationLevel, name);
     }
 
@@ -26,18 +26,24 @@ public class JavaClass extends Declaration<JavaClass> {
     }
 
 
-    public JavaClass extendsClass(final String extendedClass) {
+    public JavaClass extendsClass(String extendedClass) {
         this.extendedClass = extendedClass;
         return this;
     }
 
-    public JavaClass implementsInterface(final String implementedInterface) {
+    public JavaClass implementsInterface(String implementedInterface) {
         implementedInterfaces.add(implementedInterface);
         return this;
     }
 
-    public JavaClass implementsGenericInterface(final String implementedInterface, final String typeParameters) {
+    public JavaClass implementsGenericInterface(String implementedInterface, String typeParameters) {
         implementedInterfaces.add(implementedInterface + "<" + typeParameters + ">");
+        return this;
+    }
+
+    public JavaClass permitExtension(String javaClass) {
+        permittedExtensions.add(javaClass);
+        markAsSealed();
         return this;
     }
 
@@ -50,7 +56,7 @@ public class JavaClass extends Declaration<JavaClass> {
 
     @Override
     public String toString() {
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
 
         appendAnnotations(buf);
 
@@ -69,6 +75,12 @@ public class JavaClass extends Declaration<JavaClass> {
         if (implementedInterfaces.size() > 0) {
             buf.append("implements ");
             appendCommaSeparatedListItems(buf, implementedInterfaces);
+            buf.append(" ");
+        }
+
+        if (permittedExtensions.size() > 0) {
+            buf.append("permits ");
+            appendCommaSeparatedListItems(buf, permittedExtensions);
             buf.append(" ");
         }
 
