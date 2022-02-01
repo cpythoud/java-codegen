@@ -10,11 +10,11 @@ public class AnonymousClassCreation extends Expression<AnonymousClassCreation> {
     private JavaCodeBlock context = null;
     private int extraContextIndentation = 0;
 
-    public AnonymousClassCreation(final String className) {
+    public AnonymousClassCreation(String className) {
         this(className, 0);
     }
 
-    public AnonymousClassCreation(final String className, final int indentationLevel) {
+    public AnonymousClassCreation(String className, int indentationLevel) {
         super("AnonymousClass", indentationLevel);
         this.className = className;
     }
@@ -25,11 +25,11 @@ public class AnonymousClassCreation extends Expression<AnonymousClassCreation> {
         return this;
     }
 
-    public AnonymousClassCreation setContext(final JavaCodeBlock context) {
+    public AnonymousClassCreation setContext(JavaCodeBlock context) {
         return setContext(context, 0);
     }
 
-    public AnonymousClassCreation setContext(final JavaCodeBlock context, final int extraContextIndentation) {
+    public AnonymousClassCreation setContext(JavaCodeBlock context, int extraContextIndentation) {
         this.context = context;
         this.extraContextIndentation = extraContextIndentation;
         return getThis();
@@ -38,7 +38,7 @@ public class AnonymousClassCreation extends Expression<AnonymousClassCreation> {
 
     @Override
     public String toString() {
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
 
         if (context != null)
             setIndentationLevel(context.getIndentationLevel() + 1 + extraContextIndentation);
@@ -48,8 +48,6 @@ public class AnonymousClassCreation extends Expression<AnonymousClassCreation> {
         buf.append("() ");
 
         appendContent(buf);
-
-        //buf.append("\n");
 
         return buf.toString();
     }
