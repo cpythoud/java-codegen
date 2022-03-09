@@ -1,7 +1,5 @@
 package org.jcodegen.java;
 
-import org.dbbeans.util.Strings;
-
 /**
  * ...
  */
