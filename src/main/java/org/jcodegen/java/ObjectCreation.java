@@ -7,26 +7,23 @@ public class ObjectCreation extends Expression<ObjectCreation> {
 
     private final String object;
 
-
-    public ObjectCreation(final String object) {
+    public ObjectCreation(String object) {
         this(object,  0);
     }
 
-    public ObjectCreation(final String object, final int indentationLevel) {
+    public ObjectCreation(String object, int indentationLevel) {
         super("Object", indentationLevel);
         this.object = object;
     }
-
 
     @Override
     protected ObjectCreation getThis() {
         return this;
     }
 
-
     @Override
     public String toString() {
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
 
         startExpression(buf);
 
@@ -38,4 +35,5 @@ public class ObjectCreation extends Expression<ObjectCreation> {
 
         return buf.toString();
     }
+
 }

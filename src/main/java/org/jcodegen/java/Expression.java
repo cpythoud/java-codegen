@@ -7,11 +7,9 @@ public abstract class Expression<T extends Expression<T>> extends CallWithArgs<T
 
     private boolean embedded = true;
 
-
-    public Expression(final String keyword, final int indentationLevel) {
+    public Expression(String keyword, int indentationLevel) {
         super(keyword, indentationLevel);
     }
-
 
     public T byItself() {
         embedded = false;
@@ -19,13 +17,14 @@ public abstract class Expression<T extends Expression<T>> extends CallWithArgs<T
     }
 
 
-    protected void startExpression(final StringBuilder buf) {
+    protected void startExpression(StringBuilder buf) {
         if (!embedded)
             buf.append(getTabs());
     }
 
-    protected void endExpression(final StringBuilder buf) {
+    protected void endExpression(StringBuilder buf) {
         if (!embedded)
             buf.append(";\n");
     }
+
 }
