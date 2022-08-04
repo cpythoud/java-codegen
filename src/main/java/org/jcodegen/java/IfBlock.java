@@ -95,9 +95,11 @@ public class IfBlock extends LogicBranchBlock<IfBlock> {
             buf.append(elseBlock.toString());
         }
 
-        if (buf.lastIndexOf(System.getProperty("line.separator")) != buf.length() - 1)
-            buf.append("\n");
+        String ifBlock = buf.toString();
+        if (ifBlock.endsWith("\n"))
+            return ifBlock;
 
-        return buf.toString();
+        return ifBlock + "\n";
     }
+
 }
