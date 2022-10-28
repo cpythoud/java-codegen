@@ -12,7 +12,7 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
 
     private final String name;
 
-    private Visibility visibility = Visibility.PACKAGE_PRIVATE;
+    private Visibility visibility = Configuration.getCurrentConfiguration().getDefaultDeclarationVisibility();
 
     private boolean isAbstract = false;
     private boolean isFinal = false;
