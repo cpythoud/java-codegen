@@ -27,7 +27,12 @@ public class JavaInterface extends Declaration<JavaInterface> {
 
     @Override
     public JavaInterface markAsSynchronized() {
-        throw new UnsupportedOperationException("Class cannot be synchronized.");
+        throw new UnsupportedOperationException("Interface cannot be synchronized.");
+    }
+
+    @Override
+    public JavaInterface markAsAbstract() {
+        throw new UnsupportedOperationException("Interface cannot be abstract.");
     }
 
 

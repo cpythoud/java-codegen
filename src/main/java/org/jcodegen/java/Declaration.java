@@ -6,9 +6,9 @@ package org.jcodegen.java;
 public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBlock<T> {
 
     // TODO :
-    // revisit subclass hierarchy to prevent creation of illegal constructs in java,
-    // like synchronized constructors or abstract fields,
-    // at compile time instead of throwing UnsupportedOperationExceptions
+    // ! revisit subclass hierarchy to prevent creation of illegal constructs in java,
+    // ! like synchronized constructors or abstract fields,
+    // ! at compile time instead of throwing UnsupportedOperationExceptions
 
     private final String name;
 
@@ -20,6 +20,7 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
     private boolean isSynchronized = false;
     private boolean isSealed = false;
     private boolean isNonSealed = false;
+    private boolean isDefault = false;
 
     private String annotations = null;
 
@@ -85,6 +86,12 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
         return getThis();
     }
 
+    public T markAsDefault() {
+        // TODO: insert appropriate tests and exception throwing for illegal combination with the other modifiers
+        isDefault = true;
+        return getThis();
+    }
+
     public T annotate(String annotations) {
         this.annotations = annotations;
         return getThis();
@@ -136,7 +143,9 @@ public abstract class Declaration<T extends Declaration<T>> extends JavaCodeBloc
         if (isSealed)
             buf.append("sealed ");
         if (isNonSealed)
-            buf.append("non-sealed");
+            buf.append("non-sealed ");
+        if (isDefault)
+            buf.append("default ");
     }
 
 }
