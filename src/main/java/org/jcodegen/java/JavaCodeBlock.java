@@ -62,6 +62,10 @@ public abstract class JavaCodeBlock <T extends JavaCodeBlock<T>> {
     }
 
 
+    protected boolean hasContent() {
+        return !content.isEmpty();
+    }
+
     protected boolean contentIsAOneLiner() {
         return content.size() == 1;
     }
@@ -74,11 +78,15 @@ public abstract class JavaCodeBlock <T extends JavaCodeBlock<T>> {
 
         buf.append("{\n");
 
-        for (JavaCodeBlock javaCodeBlock: content)
-            buf.append(javaCodeBlock);
+        appendCodeBlocks(buf);
 
         buf.append(getTabs());
         buf.append("}");
+    }
+
+    protected void appendCodeBlocks(StringBuilder buf) {
+        for (JavaCodeBlock javaCodeBlock: content)
+            buf.append(javaCodeBlock);
     }
 
     protected void appendOneLinerContent(StringBuilder buf) {
