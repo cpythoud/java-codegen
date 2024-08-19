@@ -5,7 +5,6 @@ import java.util.List;
 
 public class JavaEnum extends Declaration<JavaEnum> {
 
-    private String extendedClass = null;
     private final List<String> implementedInterfaces = new ArrayList<>();
     private final List<String> enumConstants = new ArrayList<>();
 
@@ -22,11 +21,6 @@ public class JavaEnum extends Declaration<JavaEnum> {
         return this;
     }
 
-
-    public JavaEnum extendsClass(String extendedClass) {
-        this.extendedClass = extendedClass;
-        return this;
-    }
 
     public JavaEnum implementsInterface(String implementedInterface) {
         implementedInterfaces.add(implementedInterface);
@@ -64,12 +58,6 @@ public class JavaEnum extends Declaration<JavaEnum> {
         buf.append("enum ");
         buf.append(getName());
         buf.append(" ");
-
-        if (extendedClass != null) {
-            buf.append("extends ");
-            buf.append(extendedClass);
-            buf.append(" ");
-        }
 
         if (!implementedInterfaces.isEmpty()) {
             buf.append("implements ");
