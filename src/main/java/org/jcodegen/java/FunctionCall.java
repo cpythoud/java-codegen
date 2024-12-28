@@ -26,7 +26,7 @@ public class FunctionCall extends Expression<FunctionCall> {
     public FunctionCall(final String function, final String object, final int indentationLevel) {
         super("FunctionCall", indentationLevel);
         this.function = function;
-        this.object = new StringOrCode<Expression>(object);
+        this.object = new StringOrCode<>(object);
     }
 
     public FunctionCall(final String function, final Expression object) {
@@ -36,7 +36,7 @@ public class FunctionCall extends Expression<FunctionCall> {
     public FunctionCall(final String function, final Expression object, final int indentationLevel) {
         super("FunctionCall", indentationLevel);
         this.function = function;
-        this.object = new StringOrCode<Expression>(object);
+        this.object = new StringOrCode<>(object);
     }
 
 
@@ -45,22 +45,34 @@ public class FunctionCall extends Expression<FunctionCall> {
         return this;
     }
 
+    public boolean isObjectMethodCall() {
+        return object != null;
+    }
+
+    public String getFunctionName() {
+        return function;
+    }
+
 
     @Override
     public String toString() {
-        final StringBuilder buf = new StringBuilder();
+        var buf = new StringBuilder();
 
         startExpression(buf);
 
-        if (object != null) {
-            buf.append(object);
-            buf.append(".");
-        }
-        buf.append(function);
-        appendArguments(buf);
+        if (object != null)
+            buf.append(object).append(".");
+
+        addCallAndArguments(buf);
 
         endExpression(buf);
 
         return buf.toString();
     }
+
+    void addCallAndArguments(StringBuilder buf) {
+        buf.append(function);
+        appendArguments(buf);
+    }
+
 }
